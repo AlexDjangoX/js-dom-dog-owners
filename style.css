@@ -105,9 +105,9 @@ ul li {
   /* color: var(--dark-text); */
 }
 
-/* .dogs-list__button--add {
-  font-size: 3rem;
-} */
+.dogs-list__button--add {
+  font-size: 1.5rem;
+}
 
 .main__dog-section h2 {
   margin: 1rem 0;

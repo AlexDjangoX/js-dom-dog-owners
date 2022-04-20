@@ -13,8 +13,9 @@ function eventHandlerFunction() {
 }
 
 let addNewDog = document.querySelector(".dogs-list__button--add");
-addNewDog.addEventListener("click", (event_) => {
-  createForm();
+addNewDog.addEventListener("click", (event) => {
+  event.preventDefault();
+  showForm();
 });
 
 let bonker = document.getElementById("1");
@@ -83,22 +84,19 @@ function createCard(data) {
   dogCardButtonDiv.append(dogCardButtonDivButton);
 }
 
-function createForm() {
+function showForm() {
   mainSection.innerHTML = "";
-  let formSection = document.createElement("section");
-  formSection.setAttribute("class", "main__dog-section");
-
-  mainSection.append(formSection);
 
   let formHeading = document.createElement("h2");
   formHeading.innerText = "Add a new Dog";
-  formSection.append(formHeading);
+  mainSection.append(formHeading);
   let form = document.createElement("form");
   form.setAttribute("class", "form");
-  formSection.append(form);
+  mainSection.append(form);
 
   let nameLabel = document.createElement("label");
   nameLabel.setAttribute("for", "name");
+  nameLabel.innerText = "Name";
   form.appendChild(nameLabel);
 
   let nameInput = document.createElement("input");
@@ -109,6 +107,7 @@ function createForm() {
 
   let imageLabel = document.createElement("label");
   imageLabel.setAttribute("for", "image");
+  imageLabel.innerText = "URL for new Dog";
   form.appendChild(imageLabel);
 
   let imageInput = document.createElement("input");
@@ -119,6 +118,7 @@ function createForm() {
 
   let bioLabel = document.createElement("label");
   bioLabel.setAttribute("for", "bio");
+  bioLabel.innerText = "Short Bio";
   form.appendChild(bioLabel);
 
   let bioTextArea = document.createElement("textarea");
@@ -127,13 +127,51 @@ function createForm() {
   bioTextArea.setAttribute("name", "bio");
   form.appendChild(bioTextArea);
 
-  let formInput = document.createElement();
+  let formInput = document.createElement("input");
   formInput.setAttribute("type", "submit");
   formInput.setAttribute("id", "submit");
   formInput.setAttribute("name", "submit");
   formInput.setAttribute("value", "Let us add a dog");
   formInput.setAttribute("class", "form_button");
   form.appendChild(formInput);
+
+  let newDog = {};
+
+  nameInput.addEventListener("input", (event) => {
+    newDog[name] = event.target.value;
+    console.log(event.target.value);
+  });
+
+  imageInput.addEventListener("input", (event) => {
+    newDog[image] = event.target.value;
+    console.log(event.target.value);
+  });
+
+  bioTextArea.addEventListener("input", (event) => {
+    newDog[bio] = event.target.value;
+    console.log(event.target.value);
+  });
+
+  formInput.addEventListener("submit", (event) => {
+    event.preventDefault();
+    createCard(newDog);
+  });
 }
 
-createForm();
+function createNewDog(event) {
+  let newDog = {};
+  nameInput.addEventListener("input", (event) => {
+    newDog[name] = event.target.value;
+    console.log(event.target.value);
+  });
+
+  imageInput.addEventListener("input", (event) => {
+    newDog[image] = event.target.value;
+    console.log(event.target.value);
+  });
+
+  bioTextArea.addEventListener("input", (event) => {
+    newDog[bio] = event.target.value;
+    console.log(event.target.value);
+  });
+}
