@@ -1,177 +1,96 @@
 console.log(data);
 
-let mainSection = document.querySelector(".main__dog-section");
+const dogList = document.querySelector(".dogs-list");
+const header = document.querySelector(".header");
+const mainSection = document.querySelector(".main__dog-section");
+const addButton = document.querySelector(".dogs-list__button--add");
+let form;
+addButton.addEventListener("click", createForm);
 
-function eventHandlerFunction() {
-  mainSection.innerHTML = "";
-  let eventId = event.target.attributes.id.value;
-  data.forEach((card) => {
-    if (card.id == eventId) {
-      createCard(card);
+header.addEventListener("click", (event) => createDogCard(event, data));
+
+// function createPlusButton() {
+//   let plusButton = `<li class="dogs-list__button">+</li> `;
+//   dogList.insertAdjacentHTML("beforeend", plusButton);
+// }
+
+function createButtons() {
+  data.forEach((el) => {
+    let button = `<li class="dogs-list__button">${el.name}</li> `;
+    dogList.insertAdjacentHTML("beforeend", button);
+  });
+}
+
+createButtons();
+
+function createDogCard(event, data) {
+  data.forEach((el) => {
+    if (el.name === event.target.innerText) {
+      console.log(event.target.innerText);
+      let card = `<section class="main__dog-section">
+      <h2>${el.name}</h2>
+      <img
+        src=${el.image}
+        alt=""
+      />
+      <div class="main__dog-section__desc">
+        <h3>Bio</h3>
+        <p>
+          ${el.bio}
+        </p>
+      </div>
+      <div class="main__dog-section__btn">
+        <p><em>Is naughty?</em>${el.isGoodDog}</p>
+        <button>Good dog!</button>
+      </div>
+    </section>
+    
+    `;
+      mainSection.innerHTML = "";
+      mainSection.insertAdjacentHTML("afterbegin", card);
     }
   });
 }
 
-let addNewDog = document.querySelector(".dogs-list__button--add");
-addNewDog.addEventListener("click", (event) => {
-  event.preventDefault();
-  showForm();
-});
-
-let bonker = document.getElementById("1");
-bonker.addEventListener("click", (event) => {
-  eventHandlerFunction();
-});
-let nugget = document.getElementById("2");
-nugget.addEventListener("click", (event) => {
-  eventHandlerFunction();
-});
-let skittle = document.getElementById("3");
-skittle.addEventListener("click", (event) => {
-  eventHandlerFunction();
-});
-let butter = document.getElementById("4");
-butter.addEventListener("click", (event) => {
-  eventHandlerFunction();
-});
-
-let lucipher = document.getElementById("5");
-lucipher.addEventListener("click", (event) => {
-  eventHandlerFunction();
-});
-
-let snoop = document.getElementById("6");
-snoop.addEventListener("click", (event) => {
-  eventHandlerFunction();
-});
-
-let puddle = document.getElementById("7");
-puddle.addEventListener("click", (event) => {
-  eventHandlerFunction();
-});
-
-// build card
-
-let mainDogSection = document.querySelector(".main__dog-section");
-
-function createCard(data) {
-  let dogCardHeading = document.createElement("h2");
-  dogCardHeading.innerText = data.name;
-  mainDogSection.append(dogCardHeading);
-  let dogCardImage = document.createElement("img");
-  dogCardImage.setAttribute(`src`, `${data.image}`);
-  mainDogSection.append(dogCardImage);
-  let dogCardDiv = document.createElement("div");
-  dogCardDiv.setAttribute("class", "main__dog-section__desc");
-  mainDogSection.append(dogCardDiv);
-  let dogCardBioHeading = document.createElement("h3");
-  dogCardDiv.appendChild(dogCardBioHeading);
-  let dogCardBioParagraph = document.createElement("p");
-  dogCardBioParagraph.innerText = data.bio;
-  dogCardBioHeading.append(dogCardBioParagraph);
-
-  let dogCardButtonDiv = document.createElement("div");
-  dogCardButtonDiv.setAttribute("class", "main__dog-section__btn");
-  mainDogSection.append(dogCardButtonDiv);
-  let dogCardButtonDivParagraph = document.createElement("p");
-  dogCardButtonDiv.append(dogCardButtonDivParagraph);
-  let paragraphEmphasis = document.createElement("em");
-  dogCardButtonDivParagraph.innerText = "Is naught?";
-  paragraphEmphasis.innerText = " yes !";
-  dogCardButtonDivParagraph.append(paragraphEmphasis);
-  let dogCardButtonDivButton = document.createElement("button");
-  dogCardButtonDivButton.innerText = "Good dog !";
-  dogCardButtonDiv.append(dogCardButtonDivButton);
-}
-
-function showForm() {
+function createForm() {
   mainSection.innerHTML = "";
 
-  let formHeading = document.createElement("h2");
-  formHeading.innerText = "Add a new Dog";
-  mainSection.append(formHeading);
-  let form = document.createElement("form");
-  form.setAttribute("class", "form");
-  mainSection.append(form);
+  let form = `<section class="main__dog-section">
+  <h2>Add a new Dog</h2>
+  <form class="form">
 
-  let nameLabel = document.createElement("label");
-  nameLabel.setAttribute("for", "name");
-  nameLabel.innerText = "Name";
-  form.appendChild(nameLabel);
+    <label for="name">Dog's name</label>
+    <input type="text" id="name" name="name">
 
-  let nameInput = document.createElement("input");
-  nameInput.setAttribute("type", "text");
-  nameInput.setAttribute("id", "name");
-  nameInput.setAttribute("name", "name");
-  form.appendChild(nameInput);
+    <label for="image">Dog's picture</label>
+    <input type="url" id="image" name="image">
 
-  let imageLabel = document.createElement("label");
-  imageLabel.setAttribute("for", "image");
-  imageLabel.innerText = "URL for new Dog";
-  form.appendChild(imageLabel);
+    <label for="bio">Dog's bio</label>
+    <textarea rows="5" id="bio" name="bio"></textarea>
 
-  let imageInput = document.createElement("input");
-  imageInput.setAttribute("type", "url");
-  imageInput.setAttribute("id", "image");
-  imageInput.setAttribute("name", "image");
-  form.appendChild(imageInput);
+    <input type="submit" id="submit" name="submit" value="Let's add a dog!" class="form__button">
+  </form>
+</section>`;
 
-  let bioLabel = document.createElement("label");
-  bioLabel.setAttribute("for", "bio");
-  bioLabel.innerText = "Short Bio";
-  form.appendChild(bioLabel);
+  mainSection.insertAdjacentHTML("afterbegin", form);
 
-  let bioTextArea = document.createElement("textarea");
-  bioTextArea.setAttribute("rows", "5");
-  bioTextArea.setAttribute("id", "bio");
-  bioTextArea.setAttribute("name", "bio");
-  form.appendChild(bioTextArea);
+  form = document.querySelector(".form");
 
-  let formInput = document.createElement("input");
-  formInput.setAttribute("type", "submit");
-  formInput.setAttribute("id", "submit");
-  formInput.setAttribute("name", "submit");
-  formInput.setAttribute("value", "Let us add a dog");
-  formInput.setAttribute("class", "form_button");
-  form.appendChild(formInput);
-
-  let newDog = {};
-
-  nameInput.addEventListener("input", (event) => {
-    newDog[name] = event.target.value;
-    console.log(event.target.value);
-  });
-
-  imageInput.addEventListener("input", (event) => {
-    newDog[image] = event.target.value;
-    console.log(event.target.value);
-  });
-
-  bioTextArea.addEventListener("input", (event) => {
-    newDog[bio] = event.target.value;
-    console.log(event.target.value);
-  });
-
-  formInput.addEventListener("submit", (event) => {
+  form.addEventListener("submit", (event) => {
     event.preventDefault();
-    createCard(newDog);
-  });
-}
+    let newDog = {
+      id: Math.floor(Math.random() * 10),
+      bio: event.target[2].value,
+      image: event.target[1].value,
+      isGoodDog: true,
+      name: event.target[0].value,
+    };
 
-function createNewDog(event) {
-  let newDog = {};
-  nameInput.addEventListener("input", (event) => {
-    newDog[name] = event.target.value;
-    console.log(event.target.value);
-  });
+    data.unshift(newDog);
 
-  imageInput.addEventListener("input", (event) => {
-    newDog[image] = event.target.value;
-    console.log(event.target.value);
-  });
-
-  bioTextArea.addEventListener("input", (event) => {
-    newDog[bio] = event.target.value;
-    console.log(event.target.value);
+    while (dogList.childNodes.length > 2) {
+      dogList.removeChild(dogList.lastChild);
+    }
+    createButtons();
   });
 }
