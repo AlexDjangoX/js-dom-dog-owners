@@ -4,15 +4,10 @@ const dogList = document.querySelector(".dogs-list");
 const header = document.querySelector(".header");
 const mainSection = document.querySelector(".main__dog-section");
 const addButton = document.querySelector(".dogs-list__button--add");
-let form;
+
 addButton.addEventListener("click", createForm);
 
 header.addEventListener("click", (event) => createDogCard(event, data));
-
-// function createPlusButton() {
-//   let plusButton = `<li class="dogs-list__button">+</li> `;
-//   dogList.insertAdjacentHTML("beforeend", plusButton);
-// }
 
 function createButtons() {
   data.forEach((el) => {
@@ -52,6 +47,31 @@ function createDogCard(event, data) {
   });
 }
 
+function removeAllButAddButton() {
+  while (dogList.childNodes.length > 2) {
+    dogList.removeChild(dogList.lastChild);
+  }
+}
+
+function formEventHandlerFunction() {
+  form = document.querySelector(".form");
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    let newDog = {
+      id: Math.floor(Math.random() * 10),
+      bio: event.target[2].value,
+      image: event.target[1].value,
+      isGoodDog: true,
+      name: event.target[0].value,
+    };
+
+    data.unshift(newDog);
+    removeAllButAddButton();
+    createButtons();
+  });
+}
+
 function createForm() {
   mainSection.innerHTML = "";
 
@@ -74,23 +94,5 @@ function createForm() {
 
   mainSection.insertAdjacentHTML("afterbegin", form);
 
-  form = document.querySelector(".form");
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    let newDog = {
-      id: Math.floor(Math.random() * 10),
-      bio: event.target[2].value,
-      image: event.target[1].value,
-      isGoodDog: true,
-      name: event.target[0].value,
-    };
-
-    data.unshift(newDog);
-
-    while (dogList.childNodes.length > 2) {
-      dogList.removeChild(dogList.lastChild);
-    }
-    createButtons();
-  });
+  formEventHandlerFunction();
 }
